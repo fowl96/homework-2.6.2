@@ -3,7 +3,9 @@ package com.example.homework2_6_2.service;
 import com.example.homework2_6_2.exception.EmployeeAlreadyAddedException;
 import com.example.homework2_6_2.exception.EmployeeNotFoundException;
 import com.example.homework2_6_2.exception.EmployeeStorageIsFullException;
+import com.example.homework2_6_2.exception.InvalidDataException;
 import com.example.homework2_6_2.model.Employee;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,9 @@ public class EmployeeService {
         }
 
     public Employee add(Employee employee) {
+        if (!StringUtils.isAlpha(employee.getFirstName()) || !StringUtils.isAlpha(employee.getLastName())) {
+            throw new InvalidDataException();
+        }
         if (employees.size()>=SIZE_LIMIT){
             throw new EmployeeStorageIsFullException();
         }
